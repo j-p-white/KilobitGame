@@ -3,8 +3,10 @@ package KilobiteGame;
 import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Frame;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class StartingGameClass extends Applet implements Runnable{
+public class StartingGameClass extends Applet implements Runnable,KeyListener{
 	
 	/**
 	 * 
@@ -16,6 +18,7 @@ public class StartingGameClass extends Applet implements Runnable{
 		setSize(800,480);
 		setBackground(Color.BLACK);
 		setFocusable(true);
+		addKeyListener(this);
 		Frame f = (Frame) this.getParent().getParent();
 		f.setTitle("my practice title");
 	}
@@ -48,6 +51,40 @@ public class StartingGameClass extends Applet implements Runnable{
 					e.printStackTrace();
 				}
 			}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+		switch(e.getKeyCode()){
+		case KeyEvent.VK_UP:
+			break;
+			
+		case KeyEvent.VK_DOWN:
+			break;	
+			
+		case KeyEvent.VK_LEFT:
+			break;
+			
+		case KeyEvent.VK_RIGHT:
+			break;
+			
+		case KeyEvent.VK_SPACE:
+			break;	
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
