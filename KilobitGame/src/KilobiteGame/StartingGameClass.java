@@ -54,6 +54,7 @@ public class StartingGameClass extends Applet implements Runnable,KeyListener{
 	@Override
 	public void run() {
 			while(true){
+				robot.update();
 				repaint();
 				try{
 					Thread.sleep(17);
@@ -76,12 +77,15 @@ public class StartingGameClass extends Applet implements Runnable,KeyListener{
 			break;	
 			
 		case KeyEvent.VK_LEFT:
+			robot.moveLeft();
 			break;
 			
 		case KeyEvent.VK_RIGHT:
+			robot.moveRight();
 			break;
 			
 		case KeyEvent.VK_SPACE:
+			robot.jump();
 			break;	
 		}
 	}
@@ -99,11 +103,11 @@ public class StartingGameClass extends Applet implements Runnable,KeyListener{
 			break;
 			
 		case KeyEvent.VK_LEFT:
-			System.out.println("stop moving left");
+			robot.stop();
 			break;
 			
 		case KeyEvent.VK_RIGHT:
-			System.out.println("stop moving right");
+			robot.stop();
 			break;
 			
 		case KeyEvent.VK_SPACE:
