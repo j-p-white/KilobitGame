@@ -11,9 +11,10 @@ import java.net.URL;
 
 public class StartingGameClass extends Applet implements Runnable,KeyListener{
 	private Robot robot;
-	private Image image,character;
+	private Image currentSprite,image,character,characterDown,characterJumped,background;
 	private URL base;
 	private Graphics second;
+	private static Background bg1,bg2;
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -29,13 +30,19 @@ public class StartingGameClass extends Applet implements Runnable,KeyListener{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
+		//set the charecter image
 		character = getImage(base,"data/character.png");
+		characterDown = getImage(base,"data/down.png");
+		characterJumped = getImage(base,"data/jumped.png");
+		currentSprite = character;
+		background = getImage(base,"data/background.png");
 	}
 	
 	@Override
 	public void start(){
 		super.start();
+		bg1 = new Background(0,0);
+		bg2 = new Background(2160,0);
 		robot = new Robot();
 		Thread t = new Thread(this);
 		t.start();
@@ -55,6 +62,13 @@ public class StartingGameClass extends Applet implements Runnable,KeyListener{
 	public void run() {
 			while(true){
 				robot.update();
+				if(robot.isJumped()){
+					currentSprite = characterJumped;
+				}else if(robot.isJumped()==false&&robot.isDucked()==false){
+					currentSprite = character;
+				}
+				bg1.update();
+				bg2.update();
 				repaint();
 				try{
 					Thread.sleep(17);
@@ -74,14 +88,21 @@ public class StartingGameClass extends Applet implements Runnable,KeyListener{
 			break;
 			
 		case KeyEvent.VK_DOWN:
+			currentSprite = characterDown;
+			if(robot.isJumped() == false){
+				robot.setDucked(true);
+				robot.setSpeedX(0);
+			}
 			break;	
 			
 		case KeyEvent.VK_LEFT:
 			robot.moveLeft();
+			robot.setMovingLeft(true);
 			break;
 			
 		case KeyEvent.VK_RIGHT:
 			robot.moveRight();
+			robot.setMovingRight(true);
 			break;
 			
 		case KeyEvent.VK_SPACE:
@@ -99,28 +120,28 @@ public class StartingGameClass extends Applet implements Runnable,KeyListener{
 			break;
 			
 		case KeyEvent.VK_DOWN:
-			System.out.println("stop moving down");
+			currentSprite = character;
+			robot.setDucked(false);
 			break;
 			
 		case KeyEvent.VK_LEFT:
-			robot.stop();
+			robot.stopLeft();
 			break;
 			
 		case KeyEvent.VK_RIGHT:
-			robot.stop();
+			robot.stopRight();
 			break;
 			
 		case KeyEvent.VK_SPACE:
-			System.out.println("stop Jumping");
 			break;	
 		}
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
+	
 	@Override
 	public void update(Graphics g){
 		if(image==null){
@@ -136,8 +157,18 @@ public class StartingGameClass extends Applet implements Runnable,KeyListener{
 		g.drawImage(image,0,0,this);
 	}
 	
+	//this lines are painted in thier order, right now char is on the ground
 	public void paint(Graphics g){
-		 	g.drawImage(character, robot.getCenterX() -61, robot.getCenterY() -63, this);
+		 	g.drawImage(background, bg1.getBgX(), bg1.getBgY(), this);
+		 	g.drawImage(background, bg2.getBgX(), bg2.getBgY(), this);
+			g.drawImage(currentSprite, robot.getCenterX() -61, robot.getCenterY() -63, this);
 	}
 	
+	public static Background getBg1(){
+		return bg1;
+	}
+	
+	public static Background getBg2(){
+		return bg2;
+	}
 }
