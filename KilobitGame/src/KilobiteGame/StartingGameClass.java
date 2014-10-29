@@ -11,7 +11,8 @@ import java.net.URL;
 
 public class StartingGameClass extends Applet implements Runnable,KeyListener{
 	private Robot robot;
-	private Image currentSprite,image,character,characterDown,characterJumped,background;
+	private Heliboy hb1,hb2;
+	private Image currentSprite,image,character,characterDown,characterJumped,background,heliboy;
 	private URL base;
 	private Graphics second;
 	private static Background bg1,bg2;
@@ -41,6 +42,8 @@ public class StartingGameClass extends Applet implements Runnable,KeyListener{
 	@Override
 	public void start(){
 		super.start();
+		hb1 = new Heliboy(340,360);
+		hb2 = new Heliboy(700,360);
 		bg1 = new Background(0,0);
 		bg2 = new Background(2160,0);
 		robot = new Robot();
@@ -67,6 +70,8 @@ public class StartingGameClass extends Applet implements Runnable,KeyListener{
 				}else if(robot.isJumped()==false&&robot.isDucked()==false){
 					currentSprite = character;
 				}
+				hb1.update();
+				hb2.update();
 				bg1.update();
 				bg2.update();
 				repaint();
@@ -157,11 +162,13 @@ public class StartingGameClass extends Applet implements Runnable,KeyListener{
 		g.drawImage(image,0,0,this);
 	}
 	
-	//this lines are painted in thier order, right now char is on the ground
+	//this lines are painted in their order, right now char is on the ground
 	public void paint(Graphics g){
 		 	g.drawImage(background, bg1.getBgX(), bg1.getBgY(), this);
 		 	g.drawImage(background, bg2.getBgX(), bg2.getBgY(), this);
 			g.drawImage(currentSprite, robot.getCenterX() -61, robot.getCenterY() -63, this);
+			g.drawImage(heliboy, hb1.getCenterX()-48, hb1.getCenterY()-48, this);
+			g.drawImage(heliboy, hb2.getCenterX()-48, hb2.getCenterY()-48, this);
 	}
 	
 	public static Background getBg1(){
