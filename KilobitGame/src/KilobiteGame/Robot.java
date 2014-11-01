@@ -1,10 +1,13 @@
 package KilobiteGame;
 
+import java.util.ArrayList;
+
 public class Robot {
 final int JUMPSPEED = -15; 
 final int MOVESPEED = 5;
 final int GROUND = 382;
-	
+
+private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 private int centerX = 100;
 private int centerY = GROUND;
 private boolean jumped = false;
@@ -84,6 +87,15 @@ public void jump(){
 		speedY = JUMPSPEED;
 		jumped = true;
 	}
+}
+
+public void shoot(){
+	Projectile p = new Projectile(centerX + 50,centerY - 25);
+	projectiles.add(p);
+}
+
+public ArrayList getProjectiles(){
+	return projectiles;
 }
 
 public int getCenterX() {
